@@ -3,7 +3,7 @@ let checkBoxes = document.getElementById("checkbox-inputs")
 let childrenBoxes = checkBoxes.querySelectorAll("label")
 let changeValuesButton = document.getElementById("change-button")
 let labelChildren = checkBoxes.querySelectorAll("span")
-let selectedButton = document.getElementById("selected-button")
+let showSelectedValuesButton = document.getElementById("selected-button")
 let selectedButtonDiv = document.getElementById("selected-div")
 let checkBoxInput = checkBoxes.querySelectorAll("input")
 
@@ -48,45 +48,69 @@ let checkBoxInput = checkBoxes.querySelectorAll("input")
     // }
     // console.log(shuffleArray)
 
-    shuffleButton.addEventListener("click",()=>{
-//         let arr = []
-//      for(let array of childrenBoxes){
-//         arr.push(array)
-//     }
-//     [arr[0].innerHTML, arr[1].innerHTML, arr[2].innerHTML, arr[3].innerHTML] = [arr[1].innerHTML, 
-//     arr[0].innerHTML, arr[3].innerHTML, arr[2].innerHTML]
+//     shuffleButton.addEventListener("click",()=>{
+// //         let arr = []
+// //      for(let array of childrenBoxes){
+// //         arr.push(array)
+// //     }
+// //     [arr[0].innerHTML, arr[1].innerHTML, arr[2].innerHTML, arr[3].innerHTML] = [arr[1].innerHTML, 
+// //     arr[0].innerHTML, arr[3].innerHTML, arr[2].innerHTML]
 
-//     console.log(arr)
-let array = []
+// //     console.log(arr)
+// let array = []
 
-for(let boxes of childrenBoxes){
-    array.push(boxes)
-    array.sort(() => 0.5 - Math.random())
-    console.log(boxes[0])
-}
-array.innerHTML = array.innerHTML
-console.log(array)
 
- })
 
-changeValuesButton.addEventListener("click",()=>{
-    for(let box of labelChildren){
-        box.textContent = Math.floor(Math.random() * 10).toString()
-    }
-}) 
+//  })
 
-selectedButton.addEventListener("click", ()=>{
-    let boxArray = []
-    if(![...checkBoxInput].some(checkbox => checkbox.checked))
-    {
+shuffleButton.addEventListener("click", shuffleValues);
+
+changeValuesButton.addEventListener("click",changeValues);
+
+showSelectedValuesButton.addEventListener("click", showSelectedValues);
+
+function showSelectedValues() {
+    let boxArray = [];
+    if(![...checkBoxInput].some(checkbox => checkbox.checked)) {
         selectedButtonDiv.innerHTML = ""
-        return;
+        return "";
     }
-    for(let box of checkBoxInput){
-        if(box.checked){
+    for(let box of checkBoxInput) {
+        if(box.checked) {
             boxArray.push(box.nextElementSibling.innerHTML)
             selectedButtonDiv.classList.remove("display-hidden")
         }
     }
-    selectedButtonDiv.innerHTML = boxArray.map(text => text)
-})
+    selectedButtonDiv.innerHTML = boxArray.map(text => text);
+}
+
+function changeValues() {
+    let randomTexts = ["Hello","Hello2","Hello3","Hello4","Hello5","Hello6"]
+    let newText = "OK"
+    for(let box of labelChildren){
+        randomTexts.push(newText)
+        let otherRandomTexts = Math.floor(Math.random() * (randomTexts.length))
+        box.textContent = randomTexts[otherRandomTexts]
+        randomTexts.splice(otherRandomTexts, 1)
+        console.log(randomTexts)
+    }
+}
+
+function shuffleValues() {
+    // let array = [];
+    // for(let boxes of labelChildren){
+    //     array.push(boxes)
+    //     let sortedArray = array.sort(() => 0.5 - Math.random())
+    //     boxes.innerHTML = array[sortedArray]
+    //     array.splice(sortedArray,0);
+    // }
+    // console.log(array)
+    let randomValues = []
+    for(let box of labelChildren) {
+        randomValues.push(box)
+        let randomIndex = Math.floor(Math.random() * randomValues.length);
+        box.innerHTML = randomValues[randomIndex].innerHTML;
+        randomValues.splice(randomIndex,0)
+        console.log(randomValues)
+    }
+}
