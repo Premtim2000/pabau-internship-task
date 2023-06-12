@@ -85,10 +85,8 @@ function showSelectedValues() {
 }
 
 function changeValues() {
-    let randomTexts = ["Hello","Hello2","Hello3","Hello4","Hello5","Hello6"]
-    let newText = "OK"
+    let randomTexts = ["Hobbies","Football","Music","Gym","Programming","Working"]
     for(let box of labelChildren){
-        randomTexts.push(newText)
         let otherRandomTexts = Math.floor(Math.random() * (randomTexts.length))
         box.textContent = randomTexts[otherRandomTexts]
         randomTexts.splice(otherRandomTexts, 1)
