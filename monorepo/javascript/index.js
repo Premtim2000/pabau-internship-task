@@ -105,12 +105,11 @@ function shuffleValues() {
     //     array.splice(sortedArray,0);
     // }
     // console.log(array)
-    let randomValues = []
+    let randomValues = ["Internship", "Pabau", "Employment", "Career"]
     for(let box of labelChildren) {
-        randomValues.push(box)
-        let randomIndex = Math.floor(Math.random() * randomValues.length);
-        box.innerHTML = randomValues[randomIndex].innerHTML;
-        randomValues.splice(randomIndex,0)
+        let randomIndex = Math.floor(Math.random() * (randomValues.length));
+        box.innerHTML = randomValues[randomIndex];
+        randomValues.splice(randomIndex,1)
         console.log(randomValues)
     }
 }
