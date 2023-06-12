@@ -1,113 +1,56 @@
-let shuffleButton = document.getElementById("shuffle-button")
-let checkBoxes = document.getElementById("checkbox-inputs")
-let childrenBoxes = checkBoxes.querySelectorAll("label")
-let changeValuesButton = document.getElementById("change-button")
-let labelChildren = checkBoxes.querySelectorAll("span")
-let showSelectedValuesButton = document.getElementById("selected-button")
-let selectedButtonDiv = document.getElementById("selected-div")
-let checkBoxInput = checkBoxes.querySelectorAll("input")
+let controlsContainer = document.getElementById("controls-container");
+let valuesContainer = document.getElementById("values-container");
 
-// const arr = [];
-//     for(let boxes of childrenBoxes){
-//         arr.push(boxes)
-//     }
-//     const shuffleArray = (arr) =>
-//     arr.sort(() => Math.random()-0.5)
-
-//     console.log(shuffleArray(arr))
-
-
-// let myArray = []
-// function shuffle(array){
-//     let shuffledArray = []
-//     let usedArray = []
-//     let i = 0;
-//     for(let boxes of childrenBoxes){
-//         myArray.push(boxes)
-//     }
-//     while(i < array.length){
-//         let randomNumber = Math.floor(Math.random() * array.length)
-//         if(!usedArray.includes(randomNumber)){
-//             shuffledArray.push(array[randomNumber])
-//             usedArray.push(randomNumber)
-//             myArray[i].innerHTML = shuffledArray[i].innerHTML
-//             i++;
-//         }
-//     }
-//     return shuffledArray
-// }
-// console.log(shuffle(myArray)) 
-
-    // const shuffleArray = array =>{
-    //     for (let i = array.length -1; i>0; i--){
-    //         const j = Math.floor(Math.random() * (i+1))
-    //         const temp = array[i]
-    //         array[i] = array[j]
-    //         array[j] = temp
-    //     }
-    // }
-    // console.log(shuffleArray)
-
-//     shuffleButton.addEventListener("click",()=>{
-// //         let arr = []
-// //      for(let array of childrenBoxes){
-// //         arr.push(array)
-// //     }
-// //     [arr[0].innerHTML, arr[1].innerHTML, arr[2].innerHTML, arr[3].innerHTML] = [arr[1].innerHTML, 
-// //     arr[0].innerHTML, arr[3].innerHTML, arr[2].innerHTML]
-
-// //     console.log(arr)
-// let array = []
-
-
-
-//  })
+let shuffleButton = document.getElementById("shuffle-button");
+let changeValuesButton = document.getElementById("change-button");
+let showSelectedValuesButton = document.getElementById("selected-button");
 
 shuffleButton.addEventListener("click", shuffleValues);
-
 changeValuesButton.addEventListener("click",changeValues);
-
 showSelectedValuesButton.addEventListener("click", showSelectedValues);
 
+function shuffleValues() {
+    let randomValues = [1, 2, 3, 4];
+    let controls = controlsContainer.querySelectorAll("div");
+
+    [...controls].forEach(control => {
+        let randomIndex = Math.floor(Math.random() * (randomValues.length));
+        control.setAttribute('data-order', randomValues[randomIndex]);
+        randomValues.splice(randomIndex, 1);
+    });
+
+    let html = [...controls].sort((a, b) => a.getAttribute('data-order') - b.getAttribute('data-order'))
+        .map(element => element.outerHTML)
+        .join('');
+
+    controlsContainer.innerHTML = html;
+    showSelectedValues();
+}
+
 function showSelectedValues() {
-    let boxArray = [];
-    if(![...checkBoxInput].some(checkbox => checkbox.checked)) {
-        selectedButtonDiv.innerHTML = ""
-        return "";
+    const checkedCheckboxes = controlsContainer.querySelectorAll("input[type='checkbox']:checked");
+
+    if (!checkedCheckboxes.length) {
+        valuesContainer.innerHTML = "";
+        return;
     }
-    for(let box of checkBoxInput) {
-        if(box.checked) {
-            boxArray.push(box.nextElementSibling.innerHTML)
-            selectedButtonDiv.classList.remove("display-hidden")
-        }
+
+    let selectedValues = [];
+    for (let box of checkedCheckboxes) {
+        selectedValues.push(box.nextElementSibling.innerHTML);
     }
-    selectedButtonDiv.innerHTML = boxArray.map(text => text);
+    
+    valuesContainer.innerHTML = selectedValues.map(html => html);
 }
 
 function changeValues() {
-    let randomTexts = ["Hobbies","Football","Music","Gym","Programming","Working"]
-    for(let box of labelChildren){
-        let otherRandomTexts = Math.floor(Math.random() * (randomTexts.length))
-        box.textContent = randomTexts[otherRandomTexts]
-        randomTexts.splice(otherRandomTexts, 1)
-        console.log(randomTexts)
-    }
-}
+    let randomValues = ["Hobbies", "Football", "Music", "Gym", "Programming", "Working"];
+    let controls = controlsContainer.querySelectorAll("div");
 
-function shuffleValues() {
-    // let array = [];
-    // for(let boxes of labelChildren){
-    //     array.push(boxes)
-    //     let sortedArray = array.sort(() => 0.5 - Math.random())
-    //     boxes.innerHTML = array[sortedArray]
-    //     array.splice(sortedArray,0);
-    // }
-    // console.log(array)
-    let randomValues = ["Internship", "Pabau", "Employment", "Career"]
-    for(let box of labelChildren) {
+    for (let control of controls) {
         let randomIndex = Math.floor(Math.random() * (randomValues.length));
-        box.innerHTML = randomValues[randomIndex];
-        randomValues.splice(randomIndex,1)
-        console.log(randomValues)
+        control.getElementsByTagName('label')[0].textContent = randomValues[randomIndex];
+        randomValues.splice(randomIndex, 1);
     }
+    showSelectedValues();
 }

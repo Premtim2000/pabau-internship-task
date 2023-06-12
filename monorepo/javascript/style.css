@@ -1,15 +1,4 @@
-.display-hidden{
-    display: none;
-}
-
-#checkbox-inputs {
-    display: flex;
-}
-
-#checkbox-inputs label {
-    display: flex;
-}
-
-label[for='internship'] {
-    order: attr(data-order);
+.btn-group-sm label {
+    font-size: .85em;
+    padding: 3px 6px;
 }
