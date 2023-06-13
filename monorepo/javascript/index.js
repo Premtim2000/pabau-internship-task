@@ -52,5 +52,5 @@ function changeValues() {
         control.getElementsByTagName('label')[0].textContent = randomValues[randomIndex];
         randomValues.splice(randomIndex, 1);
     }
-    showSelectedValues();
+    showSelectedValues()
 }
